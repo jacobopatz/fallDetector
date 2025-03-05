@@ -5,6 +5,7 @@ import requests
 url = 'http://0.0.0.0:8000/API/receive_message'
 
 # The text message you want to send
+print("Type exit to quit program")
 while True:
     message = input("send to server: ")
     if message.lower() == "exit":
