@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fall Detection Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashBoard/css/dashBoard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            {% if message %}
+                <h1>Fall Detection Dashboard: {{message}}</h1>
+            {% else %}
+            <h1>Fall Detection Dashboard </h1>
+            {% endif %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+            </form>
+            <form method="post" action="{% url 'registerPatient' %}">
+                {% csrf_token %}
+                <button type="submit">Register Patient</button>
+            </form>
+        </header>
+        <main>
+            <section class="user-info">
+                <h2>User Details</h2>
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Age:</strong> 78</p>
+                <p><strong>Device Status:</strong> Active</p>
+            </section>
+            <section class="fall-alerts">
+                <h2>Recent Fall Alerts</h2>
+                <div class="alert">
+                    <p><strong>Time:</strong> 10:32 AM</p>
+                    <p><strong>Severity:</strong> High</p>
+                    <p><strong>Location:</strong> Living Room</p>
+                </div>
+                <div class="alert">
+                    <p><strong>Time:</strong> 9:15 PM</p>
+                    <p><strong>Severity:</strong> Moderate</p>
+                    <p><strong>Location:</strong> Kitchen</p>
+                </div>
+            </section>
+            <section class="real-time-status">
+                <h2>Real-Time Status</h2>
+                <p>Last Recorded Movement: <span class="status">Normal</span></p>
+                <p>Battery Level: <span class="status">85%</span></p>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
