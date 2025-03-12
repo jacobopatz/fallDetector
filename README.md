@@ -29,7 +29,7 @@ python manage.py runserver
 The above command will display something along the lines of `Starting development server at http://0.0.0.0:8000/`. You can go to your browser and enter the link given to view the webpage. Changes to any of the django files will be reflected in the browser immedietly after reload, no need to restart the server. 
 
 #### Viewing the webpage on another local device
-I've set up the project website to automatically be accessible by any device on your local network . The only thing is that the link will be different for these devices. You must find your machines IP address and replace the `0.0.0.0` portion of it with your IP address. Mine looks something like `http://192.168.0.12:8000` To find this enter: If you're interested, this is because 0.0.0.0 tells the server to accept connections from all network interfaces, including over LAN. To access over LAN on another device, you must specify the hosts IP address for the connection to be established. 
+I've set up the project website to automatically be accessible by any device on your local network . The only thing is that the link will be different for these devices. You must find your machines IP address and replace the `0.0.0.0` portion of it with your IP address. Mine looks something like `http://192.168.0.12:8000`. If you're interested, this is because 0.0.0.0 tells the server to accept connections from all network interfaces, including over LAN. To access over LAN on another device, you must specify the hosts IP address for the connection to be established. To find this enter:
 #### On mac
 ```sh
 ipconfig getifaddr en0
