@@ -1,5 +1,6 @@
 # CS578-Project
-
+I've created this file to give some useful information on setting up and using our project. I've also created a tutorial video which goes more into detail about how our project actually functions and has useful demos:
+find it [here](https://drive.google.com/file/d/1ZzgWw6wm9Q0n1R6PXeWd-N1kwuH9k4ga/view?usp=sharing)
 ## Prjoect Setup
 ### 1. Install anaconda for environment management
 Anaconda will help us maintain environment dependencies across machines and easily port our environment to the raspberry pi. To install anaconda, if you don't already have it, [click here](https://www.anaconda.com/download) to download it from the anaconda website.
@@ -58,8 +59,8 @@ Houses all of our server side code, aka our django project. This code can be run
 Within the main `/falldetectionapp` directory, you will see many sub-directories. Each of these is a django app, a modular section of our program that each has it's own functionality. Each app includes the following esential files:
 1. views.py- The main python logic for this app. All logical operations such as manipulation of our data-base and data processing happens here. Essentially, its the "brains" of our program. For pages that display information to the user, the view will also render the website. 
 2. urls.py- This file defines the urls for the app, and maps each one to a view. For example, entering `http://0.0.0.0:8000/login` in your browser will trigger the login view to activate. 
-3. models.py- The file that defines our database. A model can be though of as a python data structure. For example, we have a model for users that includes first_name, last_name, user_id, etc. 
-4. templates- This is where our .html files go for displaying pages to the user. You render then using the  `views.py` if necessary. 
+3. models.py- The file that defines our database. A model can be thought of as a python data structure. For example, we have a model for users that includes first_name, last_name, user_id, etc. 
+4. templates- This is where our .html files go for displaying pages to the user. You render them using the  `views.py` if necessary. 
 5. static- This is where our .css and .js files will live.
 
 ## Description Of Django Apps
@@ -116,7 +117,7 @@ python manage.py collectstatic
 ```
 
 ### migrate
-Our database is setup using the django models, which allow us to interact with a SQLite database as if it were composed of python objects. After making changes to these models.py files, it is essential to migrate our database (which makes our SQLite database match our python objects). To do this, efter making changes enter: 
+Our database is setup using the django models, which allow us to interact with a SQLite database as if it were composed of python objects. After making changes to these models.py files, it is essential to migrate our database (which makes our SQLite database match our python objects). To do this, after making changes enter: 
 ```sh
 python manage.py makemigrations
 ```
