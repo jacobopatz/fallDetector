@@ -1,8 +1,8 @@
 /* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #121212;
-    color: #ffffff;
+    background-color: #E7E6FC;
+    color: #fdfdfd;
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,12 +15,21 @@ body {
 .container {
     width: 90%;
     max-width: 800px;
-    background-color: #1e1e1e;
+    background-color: #8A8A96;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
 }
+
+.button-container {
+    display: flex;  
+    justify-content: center; 
+    align-items: center;  
+    gap: 10px;  
+    width: 100%; 
+}
+
 
 /* Header */
 .header {
@@ -28,17 +37,56 @@ body {
     font-size: 24px;
     font-weight: bold;
     padding-bottom: 10px;
-    border-bottom: 2px solid #ff5722;
+    border-bottom: 2px solid #E7E6FC;
 }
 
 /* User Info */
 .user-info {
     margin-top: 20px;
-    background-color: #2a2a2a;
+    background-color: #383636;
     padding: 15px;
     border-radius: 8px;
 }
 
+/* Fall Alert Section */
+.fall-alerts {
+    margin-top: 20px;
+    background-color: #383636;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* Real Time Status (Bottom Section) */
+.real-time-status {
+    margin-top: 20px;
+    background-color: #383636;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.button {
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #a8b0b2;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #999;
+  }
+  .button:hover {background-color: #99a3a3}
+
+  .button:active {
+    background-color: #99a3a3;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+/* Not used? */
 .user-info p {
     margin: 5px 0;
     font-size: 16px;
@@ -66,6 +114,7 @@ body {
     align-items: center;
 }
 
+/* Below Classes are not used */
 .status-indicator {
     width: 15px;
     height: 15px;

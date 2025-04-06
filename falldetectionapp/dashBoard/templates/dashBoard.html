@@ -9,20 +9,22 @@
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="header">
             {% if message %}
                 <h1>Fall Detection Dashboard: {{message}}</h1>
             {% else %}
             <h1>Fall Detection Dashboard </h1>
             {% endif %}
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">Log Out</button>
-            </form>
-            <form method="post" action="{% url 'registerPatient' %}">
-                {% csrf_token %}
-                <button type="submit">Register Patient</button>
-            </form>
+            <div class="button-container">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="button" type="submit">Log Out</button>
+                </form>
+                <form method="post" action="{% url 'registerPatient' %}">
+                    {% csrf_token %}
+                    <button class="button" type="submit">Register Patient</button>
+                </form>    
+            </div>
         </header>
         <main>
             <section class="user-info">
@@ -33,12 +35,12 @@
             </section>
             <section class="fall-alerts">
                 <h2>Recent Fall Alerts</h2>
-                <div class="alert">
+                <div class="alerts">
                     <p><strong>Time:</strong> 10:32 AM</p>
                     <p><strong>Severity:</strong> High</p>
                     <p><strong>Location:</strong> Living Room</p>
                 </div>
-                <div class="alert">
+                <div class="alerts">
                     <p><strong>Time:</strong> 9:15 PM</p>
                     <p><strong>Severity:</strong> Moderate</p>
                     <p><strong>Location:</strong> Kitchen</p>
@@ -46,8 +48,8 @@
             </section>
             <section class="real-time-status">
                 <h2>Real-Time Status</h2>
-                <p>Last Recorded Movement: <span class="status">Normal</span></p>
-                <p>Battery Level: <span class="status">85%</span></p>
+                <p>Last Recorded Movement: <span class="device-status">Normal</span></p>
+                <p>Battery Level: <span class="device-status">85%</span></p>
             </section>
         </main>
     </div>
