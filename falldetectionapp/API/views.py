@@ -29,15 +29,18 @@ def receive_message(request):
         fall_event = serializer.save()
         data = serializer.data  # {'timestamp': ..., 'has_fallen': ...}
 
-        # Forward to Alert App
-        try:
-            requests.post('http://localhost:8001/alert', json=data)
-        except requests.exceptions.RequestException as e:
-            print(f"[ERROR] Alert app failed: {e}")
+        has_fallen = data['has_fallen']
+
+        if has_fallen:
+            # Forward to Alert App
+            try:
+                requests.post('http://localhost:8000/alert/', json=data)
+            except requests.exceptions.RequestException as e:
+                print(f"[ERROR] Alert app failed: {e}")
 
         # Forward to Dashboard App
         try:
-            requests.post('http://localhost:8002/dashboard', json=data)
+            requests.post('http://localhost:8000/dashBoard/receive_sensor_data', json=data)
         except requests.exceptions.RequestException as e:
             print(f"[ERROR] Dashboard app failed: {e}")
 

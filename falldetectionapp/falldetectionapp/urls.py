@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('dashBoard.urls')),
     path('', include('API.urls')),
      path('', include('Users.urls')),
-    # path('', include('Alerts.urls')),
+    path('',include('Alerts.urls'))
 ]

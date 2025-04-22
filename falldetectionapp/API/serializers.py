@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from falldetectionapp.models import FallEvent
+from .models import FallEvent
 
 class FallEventSerializer(serializers.ModelSerializer):
     class Meta:
