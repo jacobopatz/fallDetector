@@ -2,6 +2,9 @@ import requests
 from datetime import datetime, timezone
 
 url = "http://0.0.0.0:8000/API/receive_message/"
+# Changed URL to test on my local repo
+# url = "http://localhost:8000/API/receive_message/" 
+
 
 fall_data = {
     "timestamp": datetime.now(timezone.utc).isoformat(),

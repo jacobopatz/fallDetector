@@ -6,6 +6,7 @@ import requests
 
 import smtplib
 from email.message import EmailMessage
+from datetime import datetime
 
 from .models import Message, FallEvent
 from .serializers import FallEventSerializer
@@ -44,7 +45,16 @@ def receive_message(request):
             # Email alert 
             try:
                 msg = EmailMessage()
-                msg.set_content(f"Fall detected at {data['timestamp']}")
+                # msg.set_content(f"Fall detected at {data['timestamp']}")
+                # Parse the ISO timestamp into a datetime object
+                dt = datetime.fromisoformat(data['timestamp'].replace("Z", "+00:00"))
+
+                # Format it to a friendly string (you can customize this format)
+                formatted_time = dt.strftime("%Y-%m-%d %I:%M %p (UTC)")
+
+                # Now send the nicely formatted time in the email
+                msg.set_content(f"Fall detected at {formatted_time}")
+
                 msg['Subject'] = '🚨 Fall Alert Notification'
                 msg['From'] = 'SDSUCS578@gmail.com'
                 msg['To'] = 'SDSUCS578@example.com'
