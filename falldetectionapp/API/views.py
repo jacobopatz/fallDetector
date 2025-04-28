@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 import requests
 
+import smtplib
+from email.message import EmailMessage
+
 from .models import Message, FallEvent
 from .serializers import FallEventSerializer
 
@@ -37,6 +40,23 @@ def receive_message(request):
                 requests.post('http://localhost:8000/alert/', json=data)
             except requests.exceptions.RequestException as e:
                 print(f"[ERROR] Alert app failed: {e}")
+
+            # Email alert 
+            try:
+                msg = EmailMessage()
+                msg.set_content(f"Fall detected at {data['timestamp']}")
+                msg['Subject'] = '🚨 Fall Alert Notification'
+                msg['From'] = 'SDSUCS578@gmail.com'
+                msg['To'] = 'SDSUCS578@example.com'
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login('SDSUCS578@gmail.com', 'fimc nirl xghh weum')  # Use app password if needed
+                    smtp.send_message(msg)
+
+                print("[INFO] Fall alert email sent successfully.")
+
+            except Exception as e:
+                print(f"[ERROR] Failed to send fall alert email: {e}")
 
         # Forward to Dashboard App
         try:
