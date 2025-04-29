@@ -1,14 +1,19 @@
+/* General Page Style */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f9d5d5;
+    margin: 0;
+    padding: 0;
 }
 
+/* Title (if used) */
 .title {
     font-size: 2em;
     margin-bottom: 20px;
 }
 
+/* Layout */
 .container {
     display: grid;
     grid-template-areas: 
@@ -16,24 +21,64 @@ body {
         "fall status";
     gap: 20px;
     max-width: 800px;
-    margin: auto;
+    margin: 40px auto;
+    padding: 20px;
 }
 
-.box {
+/* User Section */
+.user-info {
+    grid-area: user;
     background-color: teal;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 12px;
 }
 
-.user-details {
-    grid-area: user;
-}
-
+/* Fall Alerts Section */
 .fall-alerts {
     grid-area: fall;
+    background-color: #f44336; /* Red background for alerts */
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
 }
 
+/* Real-Time Status Section */
 .real-time-status {
     grid-area: status;
+    background-color: #4caf50; /* Green background for device status */
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Buttons */
+.button-container {
+    margin-top: 15px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    background-color: #555;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #777;
+}
+
+/* Alerts inside fall-alerts */
+.alerts {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #b71c1c; /* Darker red for inner alert box */
+    border-radius: 8px;
 }

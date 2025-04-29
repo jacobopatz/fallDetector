@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,8 @@
 <body>
     <div class="container">
         <header class="header">
-            {% if message %}
-                <h1>Fall Detection Dashboard: {{message}}</h1>
-            {% else %}
-            <h1>Fall Detection Dashboard </h1>
-            {% endif %}
+            <h1>Fall Detection Dashboard</h1>
+
             <div class="button-container">
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
@@ -26,26 +23,37 @@
                 </form>    
             </div>
         </header>
+
         <main>
+            <!-- User Information -->
             <section class="user-info">
                 <h2>User Details</h2>
-                <p><strong>Name:</strong>  John Doe</p>
+                <p><strong>Name:</strong> John Doe</p>
                 <p><strong>Age:</strong> 78</p>
                 <p><strong>Device Status:</strong> Active</p>
             </section>
+
+            <!-- Fall Alerts Section -->
             <section class="fall-alerts">
-                <h2>Recent Fall Alerts</h2>
-                <div class="alerts">
-                    <p><strong>Time:</strong> 10:32 AM</p>
-                    <p><strong>Severity:</strong> High</p>
-                    <p><strong>Location:</strong> Living Room</p>
-                </div>
-                <div class="alerts">
-                    <p><strong>Time:</strong> 9:15 PM</p>
-                    <p><strong>Severity:</strong> Moderate</p>
-                    <p><strong>Location:</strong> Kitchen</p>
-                </div>
+                <h2>Recent Fall Alert</h2>
+                {% if message %}
+                    {% if message.has_fallen %}
+                        <div class="alerts">
+                            <p><strong>🚨 Fall Detected!</strong></p>
+                            <p><strong>Time:</strong> {{ message.timestamp|date:"h:i A" }}</p>
+                        </div>
+                    {% else %}
+                        <div class="alerts" style="background-color: green;">
+                            <p><strong>✅ No Fall Detected</strong></p>
+                            <p><strong>Time:</strong> {{ message.timestamp|date:"h:i A" }}</p>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p>No fall data available.</p>
+                {% endif %}
             </section>
+
+            <!-- Real-Time Status Section -->
             <section class="real-time-status">
                 <h2>Real-Time Status</h2>
                 <p>Last Recorded Movement: <span class="device-status">Normal</span></p>
