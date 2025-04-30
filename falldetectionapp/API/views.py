@@ -77,3 +77,28 @@ def receive_message(request):
         return Response({'status': 'success', 'event': data}, status=201)
 
     return Response({'status': 'failure', 'errors': serializer.errors}, status=400)
+
+
+@api_view(['GET'])
+def check_fall_status(request):
+    latest = FallEvent.objects.order_by('-timestamp').first()
+    if latest:
+        return Response({
+            'has_fallen': latest.has_fallen,
+            'timestamp': latest.timestamp.strftime('%I:%M %p')
+        })
+    else:
+        return Response({'has_fallen': False, 'timestamp': None})
+
+@api_view(['POST'])
+def clear_fall(request):
+    fall_event = FallEvent.objects.create(
+        timestamp=datetime.now(),
+        has_fallen=False
+    )
+    return Response({
+        'status': 'cleared',
+        'id': fall_event.id,
+        'timestamp': fall_event.timestamp,
+        'has_fallen': fall_event.has_fallen
+    }, status=201)

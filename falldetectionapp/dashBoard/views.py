@@ -21,4 +21,5 @@ def dashBoard(request):
     else:
         message = None
 
-    return render(request, 'dashBoard/dashBoard.html', {'message': message})
+    return render(request, 'dashBoard.html', {'message': message})
+

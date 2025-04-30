@@ -61,5 +61,43 @@
             </section>
         </main>
     </div>
+    <script>
+        function checkFall() {
+          fetch('/API/check-fall/')
+            .then(response => response.json())
+            .then(data => {
+              const alertSection = document.querySelector('.fall-alerts .alerts');
+              const section = document.querySelector('.fall-alerts');
+              const timestamp = data.timestamp || "N/A";
+      
+              if (data.has_fallen) {
+                section.innerHTML = `
+                  <h2>Recent Fall Alert</h2>
+                  <div class="alerts" style="background-color: red; color: white;">
+                    <form method="post" action="/API/clear-fall/">
+                        {% csrf_token %}
+                        <input type="hidden" name="timestamp" value="{{ message.timestamp|date:'c' }}">
+                        <input type="hidden" name="has_fallen" value="False">
+                        <button type="submit" class="button" style="margin-top: 10px;">Clear Fall Alert</button>
+                    </form>
+                    <p><strong>🚨 Fall Detected!</strong></p>
+                    <p><strong>Time:</strong> ${timestamp}</p>
+                  </div>`;
+              } else {
+                section.innerHTML = `
+                  <h2>Recent Fall Alert</h2>
+                  <div class="alerts" style="background-color: green; color: white;">
+                    <p><strong>✅ No Fall Detected</strong></p>
+                    <p><strong>Time:</strong> ${timestamp}</p>
+                  </div>`;
+              }
+            });
+        }
+      
+        // Poll every 5 seconds
+        setInterval(checkFall, 5000);
+        checkFall(); // Initial check
+      </script>
+      
 </body>
 </html>
