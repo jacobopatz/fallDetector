@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime, timezone
 from tzlocal import get_localzone
-url = "http://100.72.88.113:8000/API/receive_message/"
+url = "http://100.89.235.45:8000/API/receive_message/"
 # Changed URL to test on my local repo
 # url = "http://localhost:8000/API/receive_message/" 
 

@@ -12,7 +12,7 @@ ACCEL_XOUT_H = 0x3B
 # Initialize I2C
 bus = smbus2.SMBus(1)
 
-url = "https://machost.tailcee11d.ts.net/receive_message/"
+url = "http://100.89.235.45:8000/API/receive_message/"
 # Attempt to wake up MPU6050 with error handling
 def init_sensor():
     try:
