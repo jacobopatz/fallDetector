@@ -1,6 +1,8 @@
 import smbus2
 import time
 import math
+import datetime
+import requests
 
 # MPU6050 Registers and Address
 MPU6050_ADDR = 0x68
@@ -10,6 +12,7 @@ ACCEL_XOUT_H = 0x3B
 # Initialize I2C
 bus = smbus2.SMBus(1)
 
+url = "http://100.72.88.113:8000/API/receive_message/"
 # Attempt to wake up MPU6050 with error handling
 def init_sensor():
     try:
@@ -50,6 +53,11 @@ while True:
             ax, ay, az = get_accel_data()
             if detect_fall(ax, ay, az):
                 print("🚨 Fall detected!")
+                fall_data = {
+                "timestamp": datetime.now().isoformat(),
+                "has_fallen": True  
+                }           
+                response = requests.post(url, json=fall_data)
                 time.sleep(2)
         except Exception as e:
             print("⚠️ Failed to read sensor data:", e)
