@@ -47,21 +47,24 @@ def detect_fall(ax, ay, az, threshold=2.5):
 
 # Main loop
 print("Starting fall detection...")
+
+if not init_sensor():
+    print("❌ Failed to initialize sensor. Exiting.")
+    exit(1)
+
 while True:
-    if init_sensor():
-        try:
-            ax, ay, az = get_accel_data()
-            if detect_fall(ax, ay, az):
-                print("🚨 Fall detected!")
-                fall_data = {
+    try:
+        ax, ay, az = get_accel_data()
+        if detect_fall(ax, ay, az):
+            print("🚨 Fall detected!")
+            fall_data = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "has_fallen": True  
-                }           
-                response = requests.post(url, json=fall_data)
-                time.sleep(2)
-        except Exception as e:
-            print("⚠️ Failed to read sensor data:", e)
-    else:
-        print("Retrying connection in 1 second...")
+                "has_fallen": True
+            }
+            response = requests.post(url, json=fall_data)
+            time.sleep(2)  # prevent spamming after a detection
+    except Exception as e:
+        print("⚠️ Failed to read sensor data:", e)
 
     time.sleep(0.05)
+

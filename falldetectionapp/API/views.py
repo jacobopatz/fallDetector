@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -95,19 +95,22 @@ def check_fall_status(request):
     else:
         return Response({'has_fallen': False, 'timestamp': None})
 
-@api_view(['POST'])
+
 def clear_fall(request):
-    
-    fall_event = FallEvent.objects.create(
-        timestamp=datetime.now(timezone.utc),
-        has_fallen=False
-    )
-    return Response({
-        'status': 'cleared',
-        'id': fall_event.id,
-        'timestamp': fall_event.timestamp,
-        'has_fallen': fall_event.has_fallen
-    }, status=201)
+    if request.method == 'POST':
+        fall_event = FallEvent.objects.create(
+            timestamp=datetime.now(timezone.utc),
+            has_fallen=False
+        )
+        return redirect('dashBoard:dashBoard')
+    return render(request, 'dashBoard.html', context={})
+
+    # return Response({
+    #     'status': 'cleared',
+    #     'id': fall_event.id,
+    #     'timestamp': fall_event.timestamp,
+    #     'has_fallen': fall_event.has_fallen
+    # }, status=201)
 @api_view(['GET'])
 def delete_all_falls(request):
     FallEvent.objects.all().delete()
