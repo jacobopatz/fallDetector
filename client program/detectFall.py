@@ -12,7 +12,7 @@ ACCEL_XOUT_H = 0x3B
 # Initialize I2C
 bus = smbus2.SMBus(1)
 
-url = "http://100.72.88.113:8000/API/receive_message/"
+url = "https://machost.tailcee11d.ts.net/receive_message/"
 # Attempt to wake up MPU6050 with error handling
 def init_sensor():
     try:
@@ -66,5 +66,5 @@ while True:
     except Exception as e:
         print("⚠️ Failed to read sensor data:", e)
 
-    time.sleep(0.05)
+    time.sleep(0.1)
 

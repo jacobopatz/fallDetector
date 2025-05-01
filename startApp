@@ -10,10 +10,10 @@ tmux send-keys -t $SESSION_NAME:0 'ssh jacobopatz@578pi "eval \"\$(/opt/minicond
 ' C-m
 
 # 3. Split the tmux window horizontally for Django server (Pane 1)
-# tmux split-window -v -t $SESSION_NAME
+tmux split-window -v -t $SESSION_NAME
 
 # 4. In Pane 1: Run the Django server locally and start Tailscale Funnel
-# tmux send-keys -t $SESSION_NAME:0.1 'cd falldetectionapp && conda activate fallAppEnv && python manage.py runserver 0.0.0.0:8000 & sudo tailscale funnel 8000' C-m
+tmux send-keys -t $SESSION_NAME:0.1 'cd falldetectionapp && conda activate fallAppEnv && python manage.py runserver 0.0.0.0:8000 & tailscale funnel 8000' C-m
 
 # 5. Attach to the tmux session so you can view both processes
 tmux attach -t $SESSION_NAME
