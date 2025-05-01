@@ -1,7 +1,7 @@
 import smbus2
 import time
 import math
-import datetime
+from datetime import datetime
 import requests
 
 # MPU6050 Registers and Address
