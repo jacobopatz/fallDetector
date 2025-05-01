@@ -2,11 +2,13 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from tzlocal import get_localzone
+from pytz import timezone as pytimezone
 import requests
 
 import smtplib
 from email.message import EmailMessage
-from datetime import datetime
+from datetime import datetime,timezone
 
 from .models import Message, FallEvent
 from .serializers import FallEventSerializer
@@ -47,7 +49,7 @@ def receive_message(request):
                 msg = EmailMessage()
                 # msg.set_content(f"Fall detected at {data['timestamp']}")
                 # Parse the ISO timestamp into a datetime object
-                dt = datetime.fromisoformat(data['timestamp'].replace("Z", "+00:00"))
+                dt = datetime.fromisoformat(data['timestamp'])
 
                 # Format it to a friendly string (you can customize this format)
                 formatted_time = dt.strftime("%Y-%m-%d %I:%M %p (UTC)")
@@ -81,19 +83,23 @@ def receive_message(request):
 
 @api_view(['GET'])
 def check_fall_status(request):
+    local_tz = get_localzone()
     latest = FallEvent.objects.order_by('-timestamp').first()
     if latest:
+        pacific = pytimezone('America/Los_Angeles')
+        pacific_time = latest.timestamp.astimezone(pacific)
         return Response({
             'has_fallen': latest.has_fallen,
-            'timestamp': latest.timestamp.strftime('%I:%M %p')
+            'timestamp': pacific_time.isoformat()
         })
     else:
         return Response({'has_fallen': False, 'timestamp': None})
 
 @api_view(['POST'])
 def clear_fall(request):
+    
     fall_event = FallEvent.objects.create(
-        timestamp=datetime.now(),
+        timestamp=datetime.now(timezone.utc),
         has_fallen=False
     )
     return Response({
@@ -102,3 +108,13 @@ def clear_fall(request):
         'timestamp': fall_event.timestamp,
         'has_fallen': fall_event.has_fallen
     }, status=201)
+@api_view(['GET'])
+def delete_all_falls(request):
+    FallEvent.objects.all().delete()
+    return Response({'status': 'all fall events deleted'})
+
+@api_view(['GET'])
+def get_all_falls(request):
+    allObjects =FallEvent.objects.all()
+    serializer = FallEventSerializer(allObjects, many=True)
+    return Response({'entries': serializer.data})

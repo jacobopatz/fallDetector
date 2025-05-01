@@ -1,7 +1,7 @@
 import smbus2
 import time
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 
 # MPU6050 Registers and Address
@@ -54,7 +54,7 @@ while True:
             if detect_fall(ax, ay, az):
                 print("🚨 Fall detected!")
                 fall_data = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "has_fallen": True  
                 }           
                 response = requests.post(url, json=fall_data)
