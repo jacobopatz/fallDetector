@@ -64,4 +64,4 @@ while True:
     else:
         print("Retrying connection in 1 second...")
 
-    time.sleep(1)
+    time.sleep(0.05)
