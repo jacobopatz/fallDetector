@@ -1,73 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fall Detection Dashboard</title>
-    <link rel="stylesheet" href="{% static 'dashBoard/css/dashBoard.css' %}">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <header class="header">
-            <h1>Fall Detection Dashboard</h1>
+<body class="bg-gradient-to-br from-indigo-500 to-purple-600 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="container bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-4xl mx-auto my-8 border border-white border-opacity-20">
+        <header class="header text-center pb-6 mb-6 border-b border-white border-opacity-30">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Fall Detection Dashboard</h1>
 
-            <div class="button-container">
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button class="button" type="submit">Log Out</button>
-                </form>
-                <form method="post" action="{% url 'registerPatient' %}">
-                    {% csrf_token %}
-                    <button class="button" type="submit">Register Patient</button>
-                </form>    
+            <div class="button-container flex flex-col sm:flex-row justify-center items-center gap-4">
+                <!-- Log Out Button -->
+                <button class="button bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75">
+                    Log Out
+                </button>
+                <!-- Register Patient Button -->
+                <button class="button bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75">
+                    Register Patient
+                </button>
             </div>
         </header>
 
-        <main>
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- User Information -->
-            <section class="user-info">
-                <h2>User Details</h2>
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Age:</strong> 78</p>
-                <p><strong>Device Status:</strong> Active</p>
+            <section class="user-info bg-white bg-opacity-15 p-6 rounded-xl shadow-md text-white">
+                <h2 class="text-2xl font-semibold mb-4">User Details</h2>
+                <p class="mb-2"><strong class="font-medium">Name:</strong> <span id="userName">John Doe</span></p>
+                <p class="mb-2"><strong class="font-medium">Age:</strong> <span id="userAge">78</span></p>
+                <p><strong class="font-medium">Device Status:</strong> <span id="deviceStatus" class="font-bold text-green-400">Active</span></p>
+                <p class="mt-4 text-sm text-white text-opacity-70">
+                    <strong class="font-medium">User ID:</strong> <span id="userId">user-1234567890abcdef</span>
+                </p>
             </section>
 
             <!-- Fall Alerts Section -->
-            <section class="fall-alerts">
-                <h2>Recent Fall Alert</h2>
-                {% if message %}
-                    {% if message.has_fallen %}
-                        <div class="alerts">
-                            <p><strong>🚨 Fall Detected!</strong></p>
-                            <p><strong>Time:</strong> {{ message.timestamp|date:"h:i A" }}</p>
-                            <form method="post" action="/API/clear-fall/">
-                                {% csrf_token %}
-                                <input type="hidden" name="timestamp" value="{{ message.timestamp|date:'c' }}">
-                                <input type="hidden" name="has_fallen" value="False">
-                                <button type="submit" class="button" style="margin-top: 10px;">Clear Fall Alert</button>
-                            </form>
-                            
-                        </div>
-                    {% else %}
-                        <div class="alerts" style="background-color: green;">
-                            <p><strong>✅ No Fall Detected</strong></p>
-                            <p><strong>Time:</strong> {{ message.timestamp|date:"h:i A" }}</p>
-                        </div>
-                    {% endif %}
-                {% else %}
-                    <p>No fall data available.</p>
-                {% endif %}
+            <section class="fall-alerts bg-white bg-opacity-15 p-6 rounded-xl shadow-md text-white flex flex-col">
+                <h2 class="text-2xl font-semibold mb-4">Recent Fall Alert</h2>
+                <div id="fallAlertContent" class="flex-grow flex flex-col justify-center items-center text-center">
+                    <!-- Content will be dynamically updated by JavaScript -->
+                    <p class="text-lg">Loading fall data...</p>
+                </div>
             </section>
 
             <!-- Real-Time Status Section -->
-            <section class="real-time-status">
-                <h2>Real-Time Status</h2>
-                <p>Last Recorded Movement: <span class="device-status">Normal</span></p>
-                <p>Battery Level: <span class="device-status">85%</span></p>
+            <section class="real-time-status bg-white bg-opacity-15 p-6 rounded-xl shadow-md text-white md:col-span-2">
+                <h2 class="text-2xl font-semibold mb-4">Real-Time Status</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <p><strong class="font-medium">Last Recorded Movement:</strong> <span id="lastMovement" class="text-blue-300">Normal</span></p>
+                    <p><strong class="font-medium">Battery Level:</strong> <span id="batteryLevel" class="text-yellow-300">85%</span></p>
+                </div>
             </section>
         </main>
-    </div>
+    </div>s
     <script>
         function checkFall() {
           fetch('/API/check-fall/')
@@ -78,24 +71,21 @@
               const localTime = new Date(timestamp).toLocaleString();
               if (data.has_fallen) {
                 section.innerHTML = `
-                  <h2>Recent Fall Alert</h2>
-                  <div class="alerts" style="background-color: red; color: white;">
-                    <form method="post" action="/API/clear-fall/">
-                                {% csrf_token %}
-                                <input type="hidden" name="timestamp" value="{{ message.timestamp|date:'c' }}">
-                                <input type="hidden" name="has_fallen" value="False">
-                                <button type="submit" class="button" style="margin-top: 10px;">Clear Fall Alert</button>
-                            </form>
-                    <p><strong>🚨 Fall Detected!</strong></p>
-                    <p><strong>Time:</strong> ${localTime}</p>
-                  </div>`;
+                   <div class="bg-red-600 p-4 rounded-lg shadow-lg w-full max-w-sm flex flex-col items-center justify-center">
+                            <p class="text-3xl mb-2">🚨</p>
+                            <p class="text-xl font-bold mb-2">Fall Detected!</p>
+                            <p class="text-sm">Time: ${localTime}</p>
+                            <button id="clearFallBtn" class="mt-4 bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-2 px-5 rounded-full transition duration-300 ease-in-out">
+                                Clear Fall Alert
+                            </button>
+                        </div>`;
               } else {
                 section.innerHTML = `
-                  <h2>Recent Fall Alert</h2>
-                  <div class="alerts" style="background-color: green; color: white;">
-                    <p><strong>✅ No Fall Detected</strong></p>
-                    <p><strong>Time:</strong> ${localTime}</p>
-                  </div>`;
+                  <div class="bg-green-600 p-4 rounded-lg shadow-lg w-full max-w-sm flex flex-col items-center justify-center">
+                                <p class="text-3xl mb-2">✅</p>
+                                <p class="text-xl font-bold mb-2">No Fall Detected</p>
+                                <p class="text-sm">Time: ${new Date().toLocaleString()}</p>
+                            </div>`;
               }
             });
         }

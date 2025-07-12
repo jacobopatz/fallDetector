@@ -1,84 +1,119 @@
-/* General Page Style */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f9d5d5;
-    margin: 0;
-    padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
 }
 
-/* Title (if used) */
-.title {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-/* Layout */
 .container {
-    display: grid;
-    grid-template-areas: 
-        "user user"
-        "fall status";
-    gap: 20px;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+  max-width: 1024px;
+  margin: 40px auto;
+  padding: 20px;
 }
 
-/* User Section */
-.user-info {
-    grid-area: user;
-    background-color: teal;
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
+.header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-/* Fall Alerts Section */
-.fall-alerts {
-    grid-area: fall;
-    background-color: #f44336; /* Red background for alerts */
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
+.header h1 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 20px;
 }
 
-/* Real-Time Status Section */
-.real-time-status {
-    grid-area: status;
-    background-color: #4caf50; /* Green background for device status */
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-/* Buttons */
 .button-container {
-    margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-    background-color: #555;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s;
+  color: white;
+}
+
+.logout {
+  background-color: #dc2626;
+}
+
+.register {
+  background-color: #1e3a8a;
+}
+
+.clear {
+  background-color: #f59e0b;
 }
 
 .button:hover {
-    background-color: #777;
+  transform: scale(1.03);
+  filter: brightness(1.05);
 }
 
-/* Alerts inside fall-alerts */
-.alerts {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #b71c1c; /* Darker red for inner alert box */
-    border-radius: 8px;
+.main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  color: #1e3a8a;
+  margin-bottom: 14px;
+}
+
+.alert {
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-left: 5px solid #dc2626;
+}
+
+.alert-safe {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-left: 5px solid #10b981;
+}
+
+.highlight {
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+  }
 }

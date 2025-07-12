@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CSRF_TRUSTED_ORIGINS = [
-    'https://jacobs-macbook-air-2.tailcee11d.ts.net'
+    'https://machost.tailcee11d.ts.net'
 ]
 ROOT_URLCONF = 'falldetectionapp.urls'
 
